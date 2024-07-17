@@ -19,9 +19,11 @@ jobs:
       run: npm install -g newman
 
     - name: Run Postman Collection with Newman
-      run: newman run C:\api-test-automation\Api-Test-Automation\collection\User.postman_collection.json
+      run: newman run collections/postman_collection.json
 
-    - name: Send Slack Notification
+    - name: Send Slack Notification on Failure
       if: failure()
+      env:
+        SLACK_OAUTH_TOKEN: ${{ secrets.SLACK_OAUTH_TOKEN }}
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Newman tests failed"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+        curl -X POST -H "Authorization: Bearer $SLACK_OAUTH_TOKEN" -H 'Content-type: application/json' --data '{"text":"Newman tests failed"}' https://slack.com/api/chat.postMessage?channel=your-channel-id
