@@ -10,20 +10,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '16'
-
     - name: Install Newman
       run: npm install -g newman
 
-    - name: Run Postman Collection with Newman
-      run: newman run collections/User.postman_collection.json
+    - name: Run Newman tests
+      run: newman run path/to/your/postman/collection.json
 
-    - name: Send Slack Notification on Failure
+    - name: Notify Slack on failure
       if: failure()
-      env:
-        SLACK_OAUTH_TOKEN: ${{ secrets.SLACK_OAUTH_TOKEN }}
       run: |
-        curl -X POST -H "Authorization: Bearer $SLACK_OAUTH_TOKEN" -H 'Content-type: application/json' --data '{"text":"Newman tests failed"}' https://slack.com/api/chat.postMessage?channel=C07CB7C76DD
+        curl -X POST -H "Authorization: Bearer ${{ secrets.SLACK_OAUTH_TOKEN }}" -H 'Content-type: application/json' --data '{"channel":"C07CB7C76DD","text":"Newman tests failed"}' https://slack.com/api/chat.postMessage
