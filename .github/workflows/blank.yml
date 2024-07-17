@@ -19,7 +19,7 @@ jobs:
       run: npm install -g newman
 
     - name: Run Postman Collection with Newman
-      run: newman run path/to/your/postman_collection.json
+      run: newman run C:\api-test-automation\Api-Test-Automation\collection\User.postman_collection.json
 
     - name: Send Slack Notification
       if: failure()
