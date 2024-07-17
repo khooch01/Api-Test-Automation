@@ -14,7 +14,7 @@ jobs:
       run: npm install -g newman
 
     - name: Run Newman tests
-      run: newman run collections/User.postman.collection.json
+      run: newman run collections/User.postman_collection.json
 
     - name: Notify Slack on failure
       if: failure()
